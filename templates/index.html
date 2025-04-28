@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommandations de Films</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center">
+
+    <!-- Header -->
+    <header class="bg-blue-700 w-full py-6 text-white text-center text-2xl font-bold shadow-md">
+        Recommandations de Films Personnalisées
+    </header>
+
+    <!-- Container -->
+    <div class="bg-white rounded-lg shadow-lg mt-10 p-8 w-full max-w-3xl mx-auto">
+        <!-- Formulaire -->
+        <form method="post" class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+            <div class="flex flex-col">
+                <label for="user_id" class="mb-1 text-lg font-medium text-gray-700">Choisissez un utilisateur :</label>
+                <select name="user_id" id="user_id" required class="border rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-400">
+                    <option value="">-- Sélectionner --</option>
+                    {% for i in range(1, 6) %}
+                        <option value="{{ i }}">Utilisateur {{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="mt-4 md:mt-7 bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded-md transition duration-300">
+                Générer
+            </button>
+        </form>
+
+        <!-- Résultats -->
+        {% if recommendations %}
+            <div class="space-y-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Résultats :</h2>
+
+                {% for movie in recommendations %}
+                    <div class="bg-gray-50 p-6 rounded-md shadow-md hover:shadow-lg transition">
+                        <div class="text-xl font-semibold text-blue-700">{{ movie.title }}</div>
+                        <div class="text-gray-600 italic mt-1">{{ movie.genres }}</div>
+                        <div class="text-green-600 font-bold mt-3">Score hybride : {{ movie.hybrid_score | round(2) }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
